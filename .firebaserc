@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "pwa-for-offline-upload-pdf",
+    "pwa-for-offline-upload-pdf": "pwa-for-offline-upload-pdf"
+  }
+}
