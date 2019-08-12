@@ -43,6 +43,7 @@ const matchFunction = ({url, event}) => {
   return new RegExp('max-res|medium-res|min-res|4g-video');
 };
 
+// dynamic cache based on stable-with-revalidate strategy
 workbox.routing.registerRoute(
   matchFunction,
   new workbox.strategies.StaleWhileRevalidate({

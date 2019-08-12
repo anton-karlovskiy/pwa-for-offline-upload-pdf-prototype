@@ -3,6 +3,8 @@ import React from 'react';
 
 import { useEffectiveConnectionType } from '../../utils/hooks';
 import './connection-aware-media.css';
+import laptop from '../../assets/images/dennis-brendel-bSBJ7PYA3DU-unsplash.jpg';
+import scooter from '../../assets/images/harley-davidson-XnhmpwEbv5I-unsplash.jpg';
 
 const ConnectionAwareMedia = () => {
   const { effectiveConnectionType } = useEffectiveConnectionType();
@@ -29,7 +31,9 @@ const ConnectionAwareMedia = () => {
 
   return (
     <div className='root-frame'>
+      <img className='responsive' src={laptop} alt='laptop' />
       {media}
+      <img className='responsive' src={scooter} alt='scooter' />
     </div>
   );
 };
