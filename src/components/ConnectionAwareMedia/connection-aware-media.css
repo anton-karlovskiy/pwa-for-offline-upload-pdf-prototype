@@ -1,9 +1,5 @@
 
 .root-frame {
-  width: 90%;
-}
-
-.responsive {
+  padding: 20px 0;
   width: 100%;
-  height: auto;
 }
