@@ -3,6 +3,7 @@ import React from 'react';
 
 import ConnectionAwareMedia from './components/ConnectionAwareMedia';
 import ImageGallery from './components/ImageGallery';
+import PDFUploader from './components/PDFUploader';
 import laptop from './assets/images/dennis-brendel-bSBJ7PYA3DU-unsplash.jpg';
 import scooter from './assets/images/harley-davidson-XnhmpwEbv5I-unsplash.jpg';
 import './App.css';
@@ -24,6 +25,7 @@ const App = () => {
       <header className="App-header">
         <ConnectionAwareMedia />
         <ImageGallery images={galleryImages} />
+        <PDFUploader />
       </header>
     </div>
   );
