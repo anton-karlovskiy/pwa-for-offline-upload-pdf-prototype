@@ -20,7 +20,9 @@ const PDFUploader = () => {
     setUploading(true);
     const uploadPDF = async () => {
       try {
-        const url = '/upload-pdf';
+        // ray test touch <
+        const url = `/upload-pdf?id=${Date.now()}`;
+        // ray test touch >
         const { data: uploadedPDFs } = await fetch(url, {
           method: 'POST',
           body: pdfData

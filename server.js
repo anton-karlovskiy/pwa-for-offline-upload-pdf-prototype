@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     cb(null, UPLOADED_PDFS_PATH);
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.originalname}-${Date.now()}.pdf`);
+    cb(null, `${req.query.id}-${file.originalname}`);
   }
 });
 const upload = multer({ storage: storage }).array('file');
@@ -24,6 +24,10 @@ app.get('/ping', (req, res) => {
 
 app.post('/upload-pdf', async (req, res) => {
   await utils.createFolder(UPLOADED_PDFS_PATH);
+
+  // ray test touch <
+  console.log('ray : ***** req.query.id => ', req.query.id);
+  // ray test touch >
 
   upload(req, res, (error) => {
     if (error instanceof multer.MulterError) {
