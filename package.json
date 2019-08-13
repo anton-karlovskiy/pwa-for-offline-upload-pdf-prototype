@@ -7,6 +7,7 @@
   "dependencies": {
     "concurrently": "^4.1.1",
     "express": "^4.17.1",
+    "multer": "^1.4.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.7",
@@ -19,7 +20,8 @@
     "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"nodemon server.js\" \"npm run start\""
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"
