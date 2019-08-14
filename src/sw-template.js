@@ -4,7 +4,7 @@ if ('function' === typeof importScripts) {
     'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
   );
 
-  // FYI: supports promise in IndexedDB methods so that it can be used in service worker
+  // FYI: supports promise in handling IndexedDB transactions so this makes it possible for us to use IndexedDB in the service worker, we should use promise based methods in the service worker, it's kind of rules in the service worker
   importScripts('./idb.js');
 
   /* global workbox */
@@ -61,7 +61,7 @@ workbox.routing.registerRoute(
   })
 );
 
-// TODO: duplicated code snippets because of impossible to import outsourced methods in service worker
+// TODO: duplicated code snippets because it's tricky to import outsourced methods in the service worker
 const dbPromise = idb.openDB('pdfs-store', 1, {
   upgrade(db) {
     db.createObjectStore('sync-pdfs', {
@@ -109,6 +109,7 @@ const deleteItemFromData = async (storeName, id) => {
   }
 };
 
+// TODO: could use workbox based methods (https://developers.google.com/web/tools/workbox/modules/workbox-background-sync)
 self.addEventListener('sync', event => {
   console.log('[sw sync] background syncing event => ', event);
   if (event.tag === 'sync-new-pdfs') {
@@ -124,6 +125,7 @@ self.addEventListener('sync', event => {
                 pdfData.append('file', file);
               }
               const url = `/upload-pdf?id=${entry.id}`;
+              // TODO: duplicated side effect because it's tricky to import outsourced methods in the service worker
               const { id: uploadId } = await fetch(url, {
                 method: 'POST',
                 body: pdfData

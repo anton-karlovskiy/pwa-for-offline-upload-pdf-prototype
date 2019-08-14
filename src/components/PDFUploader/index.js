@@ -38,7 +38,7 @@ const PDFUploader = () => {
           await sw.sync.register(SYNC_NEW_PDFS);
           setUploading(false);
         });
-    // fallback if not supported
+    // FYI: fallback if not supported
     } else {
       uploadHandler();
     }
