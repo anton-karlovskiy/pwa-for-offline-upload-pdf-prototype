@@ -22,7 +22,12 @@ class ServiceWorkerHelper extends Component {
 
         this.setState({updateAvailable: true});
       });
-    
+
+      // TODO: with this service worker not updated
+      // wb.addEventListener('sync', event => {
+      //   console.log('[ServiceWorkerHelper] background syncing event => ', event);
+      // });
+
       wb.register();
     }
   }

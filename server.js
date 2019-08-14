@@ -25,11 +25,9 @@ app.get('/ping', (req, res) => {
 app.post('/upload-pdf', async (req, res) => {
   await utils.createFolder(UPLOADED_PDFS_PATH);
 
-  // ray test touch <
-  console.log('ray : ***** req.query.id => ', req.query.id);
-  // ray test touch >
+  console.log('[server upload-pdf route] req.query.id => ', req.query.id);
 
-  upload(req, res, (error) => {
+  upload(req, res, error => {
     if (error instanceof multer.MulterError) {
         console.log('[server route upload-pdf] error case 1 => ', error);
         return res.status(500).json(error);
@@ -38,7 +36,7 @@ app.post('/upload-pdf', async (req, res) => {
         return res.status(500).json(error);
     }
 
-    return res.status(200).send({data: req.files});
+    return res.status(200).send({data: req.files, id: req.query.id});
   });
 });
 
@@ -48,6 +46,7 @@ app.post('/upload-pdf', async (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
 app.listen(
     process.env.PORT || 5000,
     () => {

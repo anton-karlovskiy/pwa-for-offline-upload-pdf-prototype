@@ -2,7 +2,10 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import { uploadPDFs } from '../../utils/side-effect';
+import { SYNC_PDFS, SYNC_NEW_PDFS } from '../../utils/constants';
 import './pdf-uploader.css';
+import { writeData } from '../../utils/idb';
 
 const PDFUploader = () => {
   const [uploading, setUploading] = useState(false);
@@ -12,29 +15,33 @@ const PDFUploader = () => {
       return;
     }
 
-    const pdfData = new FormData();
-    for (const file of acceptedFiles) {
-      pdfData.append('file', file);
-    }
-
-    setUploading(true);
-    const uploadPDF = async () => {
+    const uploadHandler = async () => {
       try {
-        // ray test touch <
-        const url = `/upload-pdf?id=${Date.now()}`;
-        // ray test touch >
-        const { data: uploadedPDFs } = await fetch(url, {
-          method: 'POST',
-          body: pdfData
-        }).then(res => res.json());
-        console.log('[uploadPDF try] uploadedPDFs => ', uploadedPDFs);
+        setUploading(true);
+        const { uploadedPDFs } = await uploadPDFs(Date.now(), acceptedFiles);
+        console.log('[uploadHandler try] uploadedPDFs => ', uploadedPDFs);
         setUploading(false);
       } catch(error) {
-        console.log('[uploadPDF catch] error => ', error);
+        console.log('[uploadHandler catch] error => ', error);
       }
     };
 
-    uploadPDF();
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      navigator.serviceWorker.ready
+        .then(async sw => {
+          const entry = {
+            id: Date.now(),
+            pdfFiles: acceptedFiles
+          };
+          setUploading(true);
+          await writeData(SYNC_PDFS, entry);
+          await sw.sync.register(SYNC_NEW_PDFS);
+          setUploading(false);
+        });
+    // fallback if not supported
+    } else {
+      uploadHandler();
+    }
   }, [uploading]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
