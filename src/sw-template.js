@@ -4,7 +4,7 @@ if ('function' === typeof importScripts) {
     'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
   );
 
-  // FYI: supports promise in handling IndexedDB transactions so this makes it possible for us to use IndexedDB in the service worker, we should use promise based methods in the service worker, it's kind of rules in the service worker
+  // FYI: supports promise in handling IndexedDB transactions so this makes it possible for us to use IndexedDB in the service worker, we should use promise based methods in the service worker because service worker has sort of asynchronous nature
   importScripts('./idb.js');
 
   /* global workbox */
